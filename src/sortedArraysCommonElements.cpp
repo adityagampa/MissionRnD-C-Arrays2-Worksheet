@@ -14,7 +14,7 @@ ERROR CASES: Return NULL for invalid inputs.
 NOTES:
 */
 
-#include <iostream>
+/*#include <iostream>
 
 struct transaction {
 	int amount;
@@ -23,5 +23,58 @@ struct transaction {
 };
 
 struct transaction * sortedArraysCommonElements(struct transaction *A, int ALen, struct transaction *B, int BLen) {
+	return NULL;
+}
+*/
+#include <iostream>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+struct transaction
+{
+	int amount;
+	char date[11];
+	char description[20];
+};
+void reverse1(char *a)
+{
+	int i = 0, j = strlen(a) - 1;
+	char temp;
+	for (; i <= j; i++, j--)
+	{
+		temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
+	}
+}
+struct transaction * sortedArraysCommonElements(struct transaction *a, int alen, struct transaction *b, int blen)
+{
+	if (a == NULL || b == NULL)
+		return NULL;
+	int min = (alen>blen) ? blen : alen;
+	struct transaction *c = (struct transaction *)malloc(min*sizeof(struct transaction));
+	min = 0;
+	int i = 0, j = 0;
+	for (; i<alen && j<blen;)
+	{
+		reverse1(a[i].date);
+		reverse1(b[j].date);
+		if (strcmp(a[i].date, b[j].date) == 0)
+		{
+			strcpy(c[i].date, a[i].date);
+			reverse1(c[i].date);
+			strcpy(c[i].description, a[i].description);
+			c[i].amount = a[i].amount;
+			i++;
+			j++;
+			min++;
+		}
+		else if (strcmp(a[i].date, b[j].date)<0)
+			i++;
+		else
+			j++;
+	}
+	if (min)
+		return c;
 	return NULL;
 }
